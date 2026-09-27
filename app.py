@@ -6,7 +6,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 import streamlit as st
 
-from reader_sections import render_method_and_equations, render_page_reader
+from reader_sections import render_method_and_equations, render_page_reader, render_reader_sidebar
 from study_content import INTERVAL_GUIDE
 from study_model import POWER_DECOMP, SCENARIOS, kinematics, pct, scenario_row, table4_rounding_error
 
@@ -71,16 +71,19 @@ st.markdown(
     "Une lecture française centrée sur les résultats, les équations utiles et leurs limites."
 )
 
+reader_page, reader_figure = render_reader_sidebar()
+
 with st.sidebar:
-    st.header("Explorer la cinématique")
-    beta = st.slider("β — forme du tangage", 1.0, 4.0, 1.5, 0.05)
-    st_value = st.slider("St — nombre de Strouhal", 0.05, 0.50, 0.35, 0.01)
-    alpha0 = st.selectbox("α₀ — angle nominal", [10, 20], format_func=lambda x: f"{x}°")
-    h_ratio = st.selectbox("h₀/c — amplitude", [0.5, 1.0], index=1)
-    st.caption(
-        "β continu sert uniquement à recalculer les équations cinématiques. Les résultats CFD du papier existent "
-        "pour β = 1, 1,25, 1,5, 2 et 4 et ne sont pas interpolés ici."
-    )
+    st.divider()
+    with st.expander("Exploration cinématique", expanded=False):
+        beta = st.slider("β — forme du tangage", 1.0, 4.0, 1.5, 0.05)
+        st_value = st.slider("St — nombre de Strouhal", 0.05, 0.50, 0.35, 0.01)
+        alpha0 = st.selectbox("α₀ — angle nominal", [10, 20], format_func=lambda x: f"{x}°")
+        h_ratio = st.selectbox("h₀/c — amplitude", [0.5, 1.0], index=1)
+        st.caption(
+            "Ces réglages servent uniquement aux widgets cinématiques. "
+            "Les figures du lecteur restent celles du PDF source."
+        )
     st.divider()
     st.markdown("**Repères dans le PDF**")
     st.markdown("- p. 3 : mouvement / αeff\n- p. 4-6 : puissance / rendement\n- p. 7-8 : Cp1 / Cp2\n- p. 9-14 : vortex / pression")
@@ -90,7 +93,7 @@ row = scenario_row(h_ratio, alpha0)
 
 
 tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs(
-    ["1 · Essentiel", "2 · Page par page", "3 · Trajectoire", "4 · Méthode & équations", "5 · Performances", "6 · Mécanisme", "7 · Limites & glossaire"]
+    ["1 · Page par page", "2 · Essentiel", "3 · Trajectoire", "4 · Méthode & équations", "5 · Performances", "6 · Mécanisme", "7 · Limites & glossaire"]
 )
 
 with tab1:
