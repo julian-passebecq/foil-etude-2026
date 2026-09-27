@@ -6,6 +6,8 @@ import plotly.express as px
 import plotly.graph_objects as go
 import streamlit as st
 
+from reader_sections import render_method_and_equations, render_page_reader
+from study_content import INTERVAL_GUIDE
 from study_model import POWER_DECOMP, SCENARIOS, kinematics, pct, scenario_row, table4_rounding_error
 
 
@@ -87,8 +89,8 @@ state = kinematics(beta, st_value, alpha0)
 row = scenario_row(h_ratio, alpha0)
 
 
-tab1, tab2, tab3, tab4, tab5 = st.tabs(
-    ["1 · Essentiel", "2 · Trajectoire", "3 · Performances", "4 · Pourquoi ?", "5 · Carte & limites"]
+tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs(
+    ["1 · Essentiel", "2 · Page par page", "3 · Trajectoire", "4 · Méthode & équations", "5 · Performances", "6 · Mécanisme", "7 · Limites & glossaire"]
 )
 
 with tab1:
@@ -136,6 +138,9 @@ with tab1:
     )
 
 with tab2:
+    render_page_reader()
+
+with tab3:
     st.subheader("Voir ce que β change réellement")
     st.caption(page_badge("3-5", "63-65") + " — Eq. (4), (5), (7), (8), Fig. 2-3")
 
@@ -188,7 +193,10 @@ with tab2:
         st.latex(r"\alpha_0=-\arctan\left(\frac{\omega h_0}{U_\infty}\right)+\theta_0")
         st.caption("Ici, ωh₀/U∞ = π·St. Le calcul reproduit la cinématique publiée, pas le solveur CFD.")
 
-with tab3:
+with tab4:
+    render_method_and_equations()
+
+with tab5:
     st.subheader("Comparer les performances sans inventer de CFD")
     st.caption(page_badge("4-9", "64-69") + " — Fig. 5-7 et Tables 1-3")
 
@@ -257,7 +265,7 @@ with tab3:
             hide_index=True,
         )
 
-with tab4:
+with tab6:
     st.subheader("Pourquoi l'optimum existe")
     st.caption(page_badge("7-14", "67-74") + " — Fig. 8-15 et Table 4")
 
@@ -292,6 +300,11 @@ with tab4:
         f"Contrôle : la Table 4 est imprimée avec des valeurs arrondies ; l'écart maximal entre C̄op imprimé et C̄p1+C̄p2 imprimés est {max_rounding:.3f}."
     )
 
+    st.markdown("#### Intervalles A-E de la Fig. 9")
+    interval_df = pd.DataFrame(INTERVAL_GUIDE, columns=["Intervalle", "Relation de signe", "Effet sur Cp1"])
+    st.dataframe(interval_df, use_container_width=True, hide_index=True)
+    st.caption("Pour β=1,5, A, C et E occupent une part plus importante du cycle que B et D, ce qui favorise Cp1.")
+
     st.markdown("#### Lire les figures de vortex et de pression")
     flow = pd.DataFrame(
         [
@@ -306,7 +319,7 @@ with tab4:
     st.dataframe(flow, use_container_width=True, hide_index=True)
     st.info("Le papier relie les vortex à la pression de surface, puis la pression aux forces et moments. Il ne réduit pas le résultat à « plus de vortex = mieux ». ")
 
-with tab5:
+with tab7:
     st.subheader("Carte de lecture et limites")
     st.dataframe(PAGE_MAP, use_container_width=True, hide_index=True)
 
