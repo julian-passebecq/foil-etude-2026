@@ -38,3 +38,13 @@ streamlit run app.py
 ## Important
 
 L'article est une étude numérique d'un foil NACA0012 à `Re=10^4`, avec mouvements prescrits. Il ne constitue pas, à lui seul, une validation d'une machine Foil'O complète ni d'un LCOE.
+
+## Vérification
+
+La logique scientifique est isolée dans `study_model.py` afin de pouvoir être testée sans l'interface Streamlit.
+
+- tests numériques de l'équation de tangage et de la périodicité ;
+- contrôle des quatre scénarios des Tables 1 à 3 ;
+- contrôle des signes et de la cohérence d'arrondi de la Table 4 ;
+- smoke test Streamlit ;
+- CI : compilation Python + `pytest`.
