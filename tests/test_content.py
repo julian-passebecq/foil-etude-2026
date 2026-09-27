@@ -1,4 +1,4 @@
-from study_content import EQUATION_GUIDE, METHOD_FACTS, PAGE_GUIDE, PRIOR_WORK
+from study_content import EQUATION_GUIDE, FIGURE_CROPS, METHOD_FACTS, PAGE_FIGURES, PAGE_GUIDE, PRIOR_WORK
 
 
 def test_all_pdf_pages_have_reading_cards():
@@ -28,3 +28,18 @@ def test_key_pages_cover_core_results_and_limitation():
     assert "50 %" in page9["summary"]
     assert "β=1,5" in page15["summary"]
     assert "prescrits" in page15["summary"]
+
+
+def test_figure_slider_map_covers_all_paper_figures():
+    assert sorted(FIGURE_CROPS) == list(range(1, 16))
+    assert PAGE_FIGURES[3] == [2, 3]
+    assert PAGE_FIGURES[4] == [4, 5]
+    assert PAGE_FIGURES[1] == []
+    assert PAGE_FIGURES[15] == []
+
+
+def test_figure_crop_boxes_are_normalized():
+    for meta in FIGURE_CROPS.values():
+        x0, y0, x1, y1 = meta["box"]
+        assert 0 <= x0 < x1 <= 1
+        assert 0 <= y0 < y1 <= 1
