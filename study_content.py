@@ -186,7 +186,7 @@ PAGE_GUIDE = [
         "article_page": "68",
         "title": "Critères quantitatifs et décomposition des signes",
         "summary": (
-            "Les auteurs formalisaient ici les ratios utilisés pour mesurer l'amélioration ou la dégradation par rapport à "
+            "Les auteurs formalisent ici les ratios utilisés pour mesurer l'amélioration ou la dégradation par rapport à "
             "β=1 : rapports des maxima de C̄op et ηT, et variation du St critique. La Fig. 9 montre ensuite, pour β=1, 1,5 "
             "et 4, quatre grandeurs instantanées : C_L, dh/dt, C_M et dθ/dt. Cette figure est essentielle pour comprendre "
             "les signes : la puissance issue du pilonnement dépend du produit C_L·dh/dt, tandis que la puissance associée "
