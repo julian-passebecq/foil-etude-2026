@@ -116,7 +116,7 @@ with tab1:
         st.subheader("À garder en tête")
         st.info(
             "Le papier traite un foil NACA0012 en calcul 2D, à Re=10⁴, avec mouvement imposé. "
-            "C'est une preuve de mécanisme hydrodynamique, pas une validation complète d'une machine réelle."
+            "C'est une étude numérique du mécanisme hydrodynamique, pas une validation complète d'une machine réelle."
         )
 
     st.subheader("Parcours conseillé")
@@ -228,7 +228,7 @@ with tab3:
     st.plotly_chart(ratio_fig, use_container_width=True)
 
     st.warning(
-        "Le message important n'est pas « augmenter β ». À β=4, les quatre scénarios publiés se dégradent par rapport à β=1."
+        "Le message important n'est pas « augmenter β ». Pour les maxima résumés dans les Tables 2-3, β=4 dégrade les quatre scénarios par rapport à β=1 ; le texte signale toutefois une amélioration possible à très faible St."
     )
 
     with st.expander("Voir les valeurs exactes des Tables 1-3"):
