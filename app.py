@@ -119,6 +119,14 @@ with tab1:
             "C'est une étude numérique du mécanisme hydrodynamique, pas une validation complète d'une machine réelle."
         )
 
+    with st.expander("Méthode en 30 secondes"):
+        st.markdown(
+            "- Profil **NACA0012**, calcul 2D laminaire à **Re=10⁴**.\n"
+            "- Solveur Navier-Stokes instationnaire compressible utilisé à **Ma∞=0,05**, avec contrôle de Ma<0,3.\n"
+            "- Maillage en C jusqu'à **20 cordes** ; maillage courant **385×65**, et **513×129** pour les structures tourbillonnaires détaillées.\n"
+            "- Axe de tangage placé à **c/3 depuis le bord d'attaque**. Pour β=1, le tangage sinusoïdal est déphasé de **90°** par rapport au pilonnement."
+        )
+
     st.subheader("Parcours conseillé")
     st.dataframe(PAGE_MAP, use_container_width=True, hide_index=True)
 
@@ -197,6 +205,10 @@ with tab3:
     base_fig.update_traces(texttemplate="%{text:.2f}", textposition="outside")
     base_fig.update_layout(template="plotly_white", height=390, yaxis_range=[0, 0.82])
     st.plotly_chart(base_fig, use_container_width=True)
+    st.info(
+        "Lecture des Fig. 5-6 : dans tous les cas, C̄op augmente d'abord avec St jusqu'à un St critique, puis diminue. "
+        "À β fixé, augmenter h₀/c ou α₀ augmente le niveau de puissance ; un h₀/c plus grand étend aussi la plage de St favorable."
+    )
 
     st.markdown(f"#### Cas sélectionné : h₀/c={h_ratio:.1f}, α₀={alpha0}°")
     p1, p2, p3, p4 = st.columns(4)
