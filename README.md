@@ -48,3 +48,15 @@ La logique scientifique est isolée dans `study_model.py` afin de pouvoir être 
 - contrôle des signes et de la cohérence d'arrondi de la Table 4 ;
 - smoke test Streamlit ;
 - CI : compilation Python + `pytest`.
+
+## V2 — lecture page par page
+
+L'application contient désormais une fiche de lecture dédiée pour chacune des 15 pages du PDF :
+
+- résumé en français ;
+- informations importantes à retenir ;
+- figures / tableaux / équations à regarder ;
+- question de lecture pour guider l'analyse ;
+- vue condensée des 15 pages.
+
+Une section séparée regroupe également la méthode numérique, l'état de l'art cité dans l'introduction et les équations essentielles à comprendre.
