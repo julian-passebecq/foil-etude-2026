@@ -243,7 +243,10 @@ PAGE_GUIDE = [
             "Le bénéfice de β=1,5 vient d'un compromis temporel, pas seulement de forces plus élevées.",
             "À β=4, le terme négatif de moment devient suffisamment grand pour rendre le bilan défavorable.",
         ],
-        "figures": ["Fig. 11 — vorticité instantanée pour β=1,5."],
+        "figures": [
+            "Fig. 8 — décomposition Cp1/Cp2 discutée dans le texte (figure publiée p. 67).",
+            "Fig. 11 — vorticité instantanée pour β=1,5, imprimée sur cette page.",
+        ],
         "equations_tables": ["Interprétation détaillée de la Table 4 et de la Fig. 8."],
         "question": "Quelle modification augmente plus vite lorsque β devient grand : la contribution positive de portance ou le coût du moment ?",
     },
@@ -265,8 +268,11 @@ PAGE_GUIDE = [
             "L'amélioration de Cp1 vient en partie d'un changement de durée des intervalles favorables/défavorables.",
             "Ce mécanisme favorable n'est toutefois pas suffisant à β élevé, car Cp2 évolue en sens contraire.",
         ],
-        "figures": ["Fig. 12 — vorticité instantanée pour β=4."],
-        "equations_tables": ["Lecture qualitative de Fig. 9 via les intervalles A-E."],
+        "figures": [
+            "Fig. 9 — intervalles A-E et signes de C_L, dh/dt, C_M et dθ/dt (figure publiée p. 68).",
+            "Fig. 12 — vorticité instantanée pour β=4, imprimée sur cette page.",
+        ],
+        "equations_tables": ["Lecture qualitative de la Fig. 9 via les intervalles A-E ; renvoi à la Fig. 8 pour Cp1."],
         "question": "La performance dépend-elle davantage de la valeur maximale de C_L ou du temps passé dans les combinaisons de signes favorables ?",
     },
     {
@@ -287,8 +293,11 @@ PAGE_GUIDE = [
             "Les pics de dθ/dt croissent alors fortement ; c'est la cause mécanique centrale de la dégradation à grand β.",
             "La Fig. 13 commence la chaîne explicative vortex → pression → forces/moments → puissance.",
         ],
-        "figures": ["Fig. 13 — pression instantanée sur les parois supérieure et inférieure pour β=1."],
-        "equations_tables": ["Rappel : Cp2 ∝ C_M·dθ/dt."],
+        "figures": [
+            "Fig. 9 — C_M et dθ/dt discutés dans le texte (figure publiée p. 68).",
+            "Fig. 13 — pression instantanée pour β=1, imprimée sur cette page.",
+        ],
+        "equations_tables": ["Rappel : Cp2 ∝ C_M·dθ/dt ; transition vers la section 3.3.2 sur le champ d'écoulement."],
         "question": "Un mouvement plus proche d'un créneau est-il réaliste si l'on tient compte des vitesses et accélérations de commande nécessaires ?",
     },
     {
