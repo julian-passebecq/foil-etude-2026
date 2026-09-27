@@ -58,7 +58,13 @@ def render_reader_sidebar() -> tuple[int, int | None]:
     st.sidebar.caption(f"Article p. {page['article_page']} · {page['title']}")
 
     selected_figure = None
-    if figures:
+    if len(figures) == 1:
+        selected_figure = figures[0]
+        st.sidebar.caption(
+            f"Figure présente sur la page : Fig. {selected_figure} · "
+            f"{FIGURE_CROPS[selected_figure]['title']}"
+        )
+    elif len(figures) > 1:
         figure_position = st.sidebar.slider(
             "Figure de la page",
             min_value=1,
@@ -70,7 +76,7 @@ def render_reader_sidebar() -> tuple[int, int | None]:
         selected_figure = figures[figure_position - 1]
         st.sidebar.caption(f"Fig. {selected_figure} · {FIGURE_CROPS[selected_figure]['title']}")
     else:
-        st.sidebar.caption("Aucune figure numérotée sur cette page.")
+        st.sidebar.caption("Aucune figure numérotée imprimée sur cette page.")
 
     return page_number, selected_figure
 
@@ -78,8 +84,8 @@ def render_reader_sidebar() -> tuple[int, int | None]:
 def render_page_reader(page_number: int, selected_figure: int | None) -> None:
     st.subheader("Lecture page par page")
     st.caption(
-        "Le curseur de gauche choisit la page du papier. Lorsqu'une page contient plusieurs figures, "
-        "le second curseur fait défiler les figures originales de cette page."
+        "Le curseur de gauche choisit la page du papier. Une figure unique s'affiche directement ; "
+        "un second curseur n'apparaît que lorsqu'il y a réellement plusieurs figures imprimées sur la page."
     )
 
     page = PAGE_GUIDE[page_number - 1]
