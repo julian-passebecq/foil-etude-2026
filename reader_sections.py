@@ -43,13 +43,8 @@ def _render_source_figure(fig_number: int, dpi: int = 170) -> bytes:
     return pix.tobytes("png")
 
 
-def render_page_reader() -> None:
-    st.subheader("Lecture page par page")
-    st.caption(
-        "Le curseur de gauche choisit la page du papier. Lorsqu'une page contient plusieurs figures, "
-        "un deuxième curseur fait défiler les figures originales de cette page."
-    )
-
+def render_reader_sidebar() -> tuple[int, int | None]:
+    st.sidebar.header("Lecture page par page")
     page_number = st.sidebar.slider(
         "Page de l'étude",
         min_value=1,
@@ -60,8 +55,8 @@ def render_page_reader() -> None:
     )
     page = PAGE_GUIDE[page_number - 1]
     figures = PAGE_FIGURES[page_number]
-
     st.sidebar.caption(f"Article p. {page['article_page']} · {page['title']}")
+
     selected_figure = None
     if figures:
         figure_position = st.sidebar.slider(
@@ -73,11 +68,21 @@ def render_page_reader() -> None:
             key=f"figure_slider_page_{page_number}",
         )
         selected_figure = figures[figure_position - 1]
-        st.sidebar.caption(
-            f"Fig. {selected_figure} · {FIGURE_CROPS[selected_figure]['title']}"
-        )
+        st.sidebar.caption(f"Fig. {selected_figure} · {FIGURE_CROPS[selected_figure]['title']}")
     else:
-        st.sidebar.info("Cette page ne contient pas de figure numérotée.")
+        st.sidebar.caption("Aucune figure numérotée sur cette page.")
+
+    return page_number, selected_figure
+
+
+def render_page_reader(page_number: int, selected_figure: int | None) -> None:
+    st.subheader("Lecture page par page")
+    st.caption(
+        "Le curseur de gauche choisit la page du papier. Lorsqu'une page contient plusieurs figures, "
+        "le second curseur fait défiler les figures originales de cette page."
+    )
+
+    page = PAGE_GUIDE[page_number - 1]
 
     st.markdown(f"### PDF p. {page_number} · article p. {page['article_page']} — {page['title']}")
     st.write(page["summary"])
