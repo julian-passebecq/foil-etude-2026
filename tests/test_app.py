@@ -6,4 +6,4 @@ def test_streamlit_app_smoke():
     assert not app.exception
     assert app.title
     assert "Étude des foils oscillants" in app.title[0].value
-    assert len(app.tabs) == 5
+    assert len(app.tabs) == 7
