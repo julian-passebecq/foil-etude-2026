@@ -6,7 +6,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 import streamlit as st
 
-from reader_sections import render_method_and_equations, render_page_reader
+from reader_sections import render_method_and_equations, render_page_reader, render_reader_sidebar
 from study_content import INTERVAL_GUIDE
 from study_model import POWER_DECOMP, SCENARIOS, kinematics, pct, scenario_row, table4_rounding_error
 
@@ -71,8 +71,9 @@ st.markdown(
     "Une lecture française centrée sur les résultats, les équations utiles et leurs limites."
 )
 
-with st.sidebar:
-    st.header("Explorer la cinématique")
+page_number, selected_figure = render_reader_sidebar()
+
+with st.sidebar.expander("Cinématique interactive", expanded=False):
     beta = st.slider("β — forme du tangage", 1.0, 4.0, 1.5, 0.05)
     st_value = st.slider("St — nombre de Strouhal", 0.05, 0.50, 0.35, 0.01)
     alpha0 = st.selectbox("α₀ — angle nominal", [10, 20], format_func=lambda x: f"{x}°")
@@ -90,10 +91,10 @@ row = scenario_row(h_ratio, alpha0)
 
 
 tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs(
-    ["1 · Essentiel", "2 · Page par page", "3 · Trajectoire", "4 · Méthode & équations", "5 · Performances", "6 · Mécanisme", "7 · Limites & glossaire"]
+    ["1 · Page par page", "2 · Essentiel", "3 · Trajectoire", "4 · Méthode & équations", "5 · Performances", "6 · Mécanisme", "7 · Limites & glossaire"]
 )
 
-with tab1:
+with tab2:
     c1, c2, c3, c4 = st.columns(4)
     c1.metric("Gain max C̄op", "+63 %", help="Table 2 : cas h₀/c=1, α₀=10°, β=1,5 vs β=1.")
     c2.metric("Gain max ηT", "+50 %", help="Table 2 : meilleur gain de rendement parmi les cas testés.")
@@ -137,8 +138,8 @@ with tab1:
         unsafe_allow_html=True,
     )
 
-with tab2:
-    render_page_reader()
+with tab1:
+    render_page_reader(page_number, selected_figure)
 
 with tab3:
     st.subheader("Voir ce que β change réellement")

@@ -459,3 +459,57 @@ INTERVAL_GUIDE = [
     ("D", "C_L et dh/dt de signes opposés", "Cp1 négatif"),
     ("E", "C_L et dh/dt de même signe", "Cp1 positif"),
 ]
+
+PAPER_PDF_URL = "https://www.cfd-fsi-xiao.org/wp-content/uploads/2024/12/1-s2.0-S0960148111002576-main.pdf"
+
+# Crop boxes measured on a 1241 x 1654 render of the source PDF.
+# They are converted to normalized coordinates at runtime, so rendering can use any DPI.
+_FIGURE_PIXEL_BOXES = {
+    1: (2, (60, 1190, 610, 1545)),
+    2: (3, (70, 110, 605, 640)),
+    3: (3, (635, 110, 1170, 640)),
+    4: (4, (60, 100, 600, 650)),
+    5: (4, (275, 765, 980, 1540)),
+    6: (5, (275, 800, 995, 1545)),
+    7: (6, (70, 100, 605, 1135)),
+    8: (7, (245, 110, 1010, 835)),
+    9: (8, (195, 325, 1040, 1545)),
+    10: (9, (235, 500, 1030, 1535)),
+    11: (10, (235, 500, 1030, 1535)),
+    12: (11, (235, 500, 1030, 1535)),
+    13: (12, (210, 500, 1030, 1540)),
+    14: (13, (210, 500, 1030, 1540)),
+    15: (14, (210, 100, 1030, 1000)),
+}
+
+FIGURE_TITLES = {
+    1: "Schéma d'un dispositif d'extraction d'énergie par foil oscillant",
+    2: "Profils de pilonnement h(t) et de tangage θ(t)",
+    3: "Angle d'attaque effectif αeff(t)",
+    4: "Validation numérique contre Jones & Platzer",
+    5: "Coefficient de puissance moyen C̄op en fonction de St",
+    6: "Rendement total ηT en fonction de St",
+    7: "Maxima de puissance et de rendement en fonction de β",
+    8: "Décomposition instantanée C_op = Cp1 + Cp2",
+    9: "C_L, dh/dt, C_M et dθ/dt sur un cycle",
+    10: "Vorticité instantanée pour β=1",
+    11: "Vorticité instantanée pour β=1,5",
+    12: "Vorticité instantanée pour β=4",
+    13: "Pression de paroi pour β=1",
+    14: "Pression de paroi pour β=1,5",
+    15: "Pression de paroi pour β=4",
+}
+
+FIGURE_CROPS = {
+    fig: {
+        "page": page,
+        "box": tuple(value / scale for value, scale in zip(box, (1241, 1654, 1241, 1654))),
+        "title": FIGURE_TITLES[fig],
+    }
+    for fig, (page, box) in _FIGURE_PIXEL_BOXES.items()
+}
+
+PAGE_FIGURES = {
+    page: [fig for fig, meta in FIGURE_CROPS.items() if meta["page"] == page]
+    for page in range(1, 16)
+}
