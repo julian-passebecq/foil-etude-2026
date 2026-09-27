@@ -116,7 +116,15 @@ with tab1:
         st.subheader("À garder en tête")
         st.info(
             "Le papier traite un foil NACA0012 en calcul 2D, à Re=10⁴, avec mouvement imposé. "
-            "C'est une preuve de mécanisme hydrodynamique, pas une validation complète d'une machine réelle."
+            "C'est une étude numérique du mécanisme hydrodynamique, pas une validation complète d'une machine réelle."
+        )
+
+    with st.expander("Méthode en 30 secondes"):
+        st.markdown(
+            "- Profil **NACA0012**, calcul 2D laminaire à **Re=10⁴**.\n"
+            "- Solveur Navier-Stokes instationnaire compressible utilisé à **Ma∞=0,05**, avec contrôle de Ma<0,3.\n"
+            "- Maillage en C jusqu'à **20 cordes** ; maillage courant **385×65**, et **513×129** pour les structures tourbillonnaires détaillées.\n"
+            "- Axe de tangage placé à **c/3 depuis le bord d'attaque**. Pour β=1, le tangage sinusoïdal est déphasé de **90°** par rapport au pilonnement."
         )
 
     st.subheader("Parcours conseillé")
@@ -197,6 +205,10 @@ with tab3:
     base_fig.update_traces(texttemplate="%{text:.2f}", textposition="outside")
     base_fig.update_layout(template="plotly_white", height=390, yaxis_range=[0, 0.82])
     st.plotly_chart(base_fig, use_container_width=True)
+    st.info(
+        "Lecture des Fig. 5-6 : dans tous les cas, C̄op augmente d'abord avec St jusqu'à un St critique, puis diminue. "
+        "À β fixé, augmenter h₀/c ou α₀ augmente le niveau de puissance ; un h₀/c plus grand étend aussi la plage de St favorable."
+    )
 
     st.markdown(f"#### Cas sélectionné : h₀/c={h_ratio:.1f}, α₀={alpha0}°")
     p1, p2, p3, p4 = st.columns(4)
@@ -228,7 +240,7 @@ with tab3:
     st.plotly_chart(ratio_fig, use_container_width=True)
 
     st.warning(
-        "Le message important n'est pas « augmenter β ». À β=4, les quatre scénarios publiés se dégradent par rapport à β=1."
+        "Le message important n'est pas « augmenter β ». Pour les maxima résumés dans les Tables 2-3, β=4 dégrade les quatre scénarios par rapport à β=1 ; le texte signale toutefois une amélioration possible à très faible St."
     )
 
     with st.expander("Voir les valeurs exactes des Tables 1-3"):
