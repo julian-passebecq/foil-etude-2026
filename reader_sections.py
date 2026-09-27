@@ -1,45 +1,99 @@
 from __future__ import annotations
 
+from pathlib import Path
+
 import pandas as pd
 import streamlit as st
 
+from figure_content import figures_for_page
 from study_content import EQUATION_GUIDE, METHOD_FACTS, PAGE_GUIDE, PRIOR_WORK
 
+ROOT = Path(__file__).resolve().parent
 
-def render_page_reader() -> None:
-    st.subheader("Lecture page par page")
-    st.caption(
-        "Chaque fiche reprend uniquement les informations soutenues par le PDF source, "
-        "avec les repères de page, figures, tableaux et équations."
+
+def render_reader_sidebar() -> tuple[int, int]:
+    st.sidebar.header("Lecture page par page")
+    page_number = st.sidebar.slider(
+        "Page du PDF",
+        min_value=1,
+        max_value=len(PAGE_GUIDE),
+        value=1,
+        step=1,
+        help="Fait avancer l'étude page par page, de l'abstract à la conclusion.",
     )
 
-    options = [
-        f"PDF p. {item['pdf_page']} · article p. {item['article_page']} — {item['title']}"
-        for item in PAGE_GUIDE
-    ]
-    selected = st.selectbox("Choisir une page", options, index=0)
-    page = PAGE_GUIDE[options.index(selected)]
+    figures = figures_for_page(page_number)
+    if len(figures) > 1:
+        figure_index = st.sidebar.slider(
+            "Figure de cette page",
+            min_value=1,
+            max_value=len(figures),
+            value=1,
+            step=1,
+            help="Change la figure source affichée pour la page sélectionnée.",
+        )
+        selected = figures[figure_index - 1]
+        st.sidebar.caption(f"Fig. {selected['figure']} — {selected['title']}")
+    elif len(figures) == 1:
+        figure_index = 1
+        st.sidebar.caption(f"Figure : Fig. {figures[0]['figure']} — {figures[0]['title']}")
+    else:
+        figure_index = 0
+        st.sidebar.caption("Aucune figure imprimée sur cette page.")
 
-    st.markdown(f"### {page['title']}")
-    st.caption(f"PDF p. {page['pdf_page']} · article p. {page['article_page']}")
-    st.write(page["summary"])
+    st.sidebar.caption(
+        "Les images sont des extraits directs du PDF source. "
+        "Le slider ne fabrique ni n'interpole de résultat CFD."
+    )
+    return page_number, figure_index
 
-    left, right = st.columns([1.15, 0.85])
-    with left:
-        st.markdown("#### Informations importantes")
+
+def render_page_reader(page_number: int, figure_index: int) -> None:
+    page = PAGE_GUIDE[page_number - 1]
+    figures = figures_for_page(page_number)
+
+    st.subheader(f"PDF p. {page['pdf_page']} · article p. {page['article_page']} — {page['title']}")
+
+    text_col, visual_col = st.columns([0.95, 1.25], gap="large")
+
+    with text_col:
+        st.markdown("### Résumé de la page")
+        st.write(page["summary"])
+
+        st.markdown("### Informations importantes")
         for item in page["important"]:
             st.markdown(f"- {item}")
-    with right:
-        st.markdown("#### Repères de lecture")
+
+        st.info(f"**Question de lecture :** {page['question']}")
+
+    with visual_col:
+        st.markdown("### Figure source")
+        if figures and figure_index > 0:
+            selected = figures[figure_index - 1]
+            asset_path = ROOT / selected["asset"]
+            if asset_path.exists():
+                st.image(
+                    str(asset_path),
+                    caption=selected["caption"],
+                    use_container_width=True,
+                )
+                st.markdown(f"**À regarder :** {selected['focus']}")
+            else:
+                st.error(f"Asset manquant : {selected['asset']}")
+        else:
+            st.info(
+                "Cette page ne contient pas de figure numérotée dans l'article. "
+                "Le contenu utile est donc présenté dans le résumé et les repères ci-dessous."
+            )
+
+        st.markdown("### Repères exacts")
         for fig in page["figures"]:
             st.markdown(f"- **Figure :** {fig}")
         for eq in page["equations_tables"]:
             st.markdown(f"- **Équation / table :** {eq}")
 
-    st.info(f"**Question à garder en tête :** {page['question']}")
-
     st.divider()
-    st.markdown("### Vue condensée des 15 pages")
+    st.markdown("### Carte rapide des 15 pages")
     summary = pd.DataFrame(
         [
             {
